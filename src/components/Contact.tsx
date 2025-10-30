@@ -3,33 +3,79 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Instagram, Linkedin, Github, Send } from "lucide-react";
+import { Mail, Instagram, Linkedin, Send, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from "@emailjs/browser";
+import { clubConfig } from "@/config";
 
 const Contact = () => {
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    title: "",
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder for form submission logic
-    toast({
-      title: "Message Sent!",
-      description: "We'll get back to you soon.",
-    });
-    setFormData({ name: "", email: "", message: "" });
+    setIsSubmitting(true);
+
+    try {
+      await emailjs.send(
+        clubConfig.emailjs.serviceId,
+        clubConfig.emailjs.templateId,
+        {
+          name: formData.name,
+          email: formData.email,
+          title: formData.title,
+          message: formData.message,
+          to_email: "omkartanajipatil2006@gmail.com",
+        },
+        clubConfig.emailjs.publicKey
+      );
+
+      toast({
+        title: "Message Sent Successfully!",
+        description: "We'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", title: "", message: "" });
+    } catch (error) {
+      toast({
+        title: "Failed to Send Message",
+        description: "Please try again later or contact us directly via email.",
+        variant: "destructive",
+      });
+      console.error("EmailJS error:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const socialLinks = [
-    { icon: Instagram, label: "Instagram", href: "#", color: "hover:text-pink-500" },
-    { icon: Linkedin, label: "LinkedIn", href: "#", color: "hover:text-blue-600" },
-    { icon: Github, label: "GitHub", href: "#", color: "hover:text-gray-900" },
-    { icon: Mail, label: "Email", href: "mailto:pic@college.edu", color: "hover:text-primary" },
-  ];
+    { 
+      icon: Instagram, 
+      label: "Instagram", 
+      href: clubConfig.social.instagram, 
+      color: "hover:text-pink-500",
+      show: true 
+    },
+    { 
+      icon: Linkedin, 
+      label: "LinkedIn", 
+      href: clubConfig.social.linkedin, 
+      color: "hover:text-blue-600",
+      show: clubConfig.social.linkedin !== "" 
+    },
+    { 
+      icon: Mail, 
+      label: "Email", 
+      href: `mailto:${clubConfig.social.email}`, 
+      color: "hover:text-primary",
+      show: true 
+    },
+  ].filter(link => link.show);
 
   return (
     <section id="contact" className="py-20 md:py-32 bg-background">
@@ -58,6 +104,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
+                    disabled={isSubmitting}
                     className="border-border/50"
                   />
                 </div>
@@ -68,6 +115,17 @@ const Contact = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
+                    disabled={isSubmitting}
+                    className="border-border/50"
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="Subject"
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    required
+                    disabled={isSubmitting}
                     className="border-border/50"
                   />
                 </div>
@@ -78,12 +136,22 @@ const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
                     rows={5}
+                    disabled={isSubmitting}
                     className="border-border/50"
                   />
                 </div>
-                <Button type="submit" variant="default" className="w-full group">
-                  Send Message
-                  <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <Button type="submit" variant="default" className="w-full group" disabled={isSubmitting}>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
                 </Button>
               </form>
             </CardContent>
@@ -112,13 +180,12 @@ const Contact = () => {
 
                 <div className="pt-6 mt-6 border-t border-border">
                   <h4 className="font-semibold mb-2 text-foreground">Email</h4>
-                  <p className="text-muted-foreground">pic@college.edu</p>
+                  <p className="text-muted-foreground">{clubConfig.social.email}</p>
                   
                   <h4 className="font-semibold mb-2 mt-4 text-foreground">Location</h4>
                   <p className="text-muted-foreground">
-                    Innovation Lab, Room 203<br />
-                    Engineering Building<br />
-                    Your College Campus
+                    Pimpri Chinchwad College of Engineering and Research<br />
+                    Ravet, Pune
                   </p>
                 </div>
               </CardContent>
