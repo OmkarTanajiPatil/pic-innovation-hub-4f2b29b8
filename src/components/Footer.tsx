@@ -1,4 +1,5 @@
 import picLogo from "@/assets/pic-logo.jpg";
+import { clubConfig } from "@/config";
 
 const Footer = () => {
   return (
@@ -20,7 +21,7 @@ const Footer = () => {
               © {new Date().getFullYear()} Project and Innovation Club. All rights reserved.
             </p>
             <p className="text-sm text-secondary-foreground/70 mt-1">
-              pic@college.edu | +1 (555) 123-4567
+              {clubConfig.social.email}
             </p>
           </div>
         </div>
