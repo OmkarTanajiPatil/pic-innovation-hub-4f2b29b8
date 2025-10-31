@@ -1,7 +1,27 @@
+import { useState, useEffect } from "react";
 import picLogo from "@/assets/pic-logo.jpg";
-import { clubConfig } from "@/config";
+
+interface Config {
+  email: string;
+}
 
 const Footer = () => {
+  const [config, setConfig] = useState<Config | null>(null);
+
+  // Load configuration from config.json
+  useEffect(() => {
+    const loadConfig = async () => {
+      try {
+        const response = await fetch("/config.json");
+        const data: Config = await response.json();
+        setConfig(data);
+      } catch (error) {
+        console.error("Error loading config:", error);
+      }
+    };
+    loadConfig();
+  }, []);
+
   return (
     <footer className="bg-secondary text-secondary-foreground py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,9 +40,9 @@ const Footer = () => {
             <p className="text-sm text-secondary-foreground/70">
               © {new Date().getFullYear()} Project and Innovation Club. All rights reserved.
             </p>
-            <p className="text-sm text-secondary-foreground/70 mt-1">
-              {clubConfig.social.email}
-            </p>
+            {config && (
+              <p className="text-sm text-secondary-foreground/70 mt-1">{config.email}</p>
+            )}
           </div>
         </div>
       </div>

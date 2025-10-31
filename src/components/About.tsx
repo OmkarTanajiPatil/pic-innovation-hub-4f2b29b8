@@ -28,19 +28,20 @@ const About = () => {
     <section id="about" className="py-20 md:py-32 bg-muted/30 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 to-transparent pointer-events-none"></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-4xl mx-auto text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground">
-            About <span className="text-primary">PIC</span>
-          </h2>
-          <div className="space-y-6">
-            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-              The Project & Innovation Club (PIC) at Pimpri Chinchwad College of Engineering and Research is dedicated to transforming creative ideas into impactful solutions. We bridge the gap between theoretical knowledge and practical application, fostering a culture of innovation and research excellence among students.
-            </p>
-            <p className="text-lg md:text-xl text-foreground/80 leading-relaxed">
-              Our mission is to cultivate a research-driven mindset, encourage innovative thinking, and provide students with the tools and guidance needed to excel in their academic and professional endeavors.
-            </p>
-          </div>
-        </div>
+      <div className="max-w-4xl mx-auto text-center mb-16 animate-fade-in">
+        <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+          About PIC
+        </h2>
+        <p className="text-base md:text-lg text-foreground/80 mb-6 leading-relaxed">
+          The Project & Innovation Club (PIC) at Pimpri Chinchwad College of Engineering and Research 
+          transforms creative ideas into impactful solutions. We bridge theoretical knowledge with 
+          practical application, fostering innovation and research excellence.
+        </p>
+        <p className="text-base md:text-lg text-foreground/80 leading-relaxed">
+          Our mission is to cultivate a research-driven mindset, encourage innovative thinking, and 
+          equip students with the tools needed to excel academically and professionally.
+        </p>
+      </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => (

@@ -1,100 +1,169 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, Instagram, Linkedin, Send, Loader2 } from "lucide-react";
+import { Instagram, Linkedin, Mail, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from "@emailjs/browser";
-import { clubConfig } from "@/config";
+
+// Type definitions
+interface Config {
+  email: string;
+  instagram: string;
+  linkedin: string;
+  contactEmail: string;
+  emailjs: {
+    serviceId: string;
+    templateId: string;
+    publicKey: string;
+  };
+}
+
+interface FormData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
 
 const Contact = () => {
   const { toast } = useToast();
+  const [config, setConfig] = useState<Config | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
-    title: "",
+    subject: "",
     message: "",
   });
 
+  // Load configuration from config.json
+  useEffect(() => {
+    const loadConfig = async () => {
+      try {
+        const response = await fetch("/config.json");
+        const data: Config = await response.json();
+        setConfig(data);
+      } catch (error) {
+        console.error("Error loading config:", error);
+      }
+    };
+    loadConfig();
+  }, []);
+
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!config) {
+      toast({
+        title: "Configuration Error",
+        description: "Unable to load contact configuration. Please try again later.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
+      // Initialize EmailJS with public key
+      emailjs.init(config.emailjs.publicKey);
+
+      // Send email using EmailJS
       await emailjs.send(
-        clubConfig.emailjs.serviceId,
-        clubConfig.emailjs.templateId,
+        config.emailjs.serviceId,
+        config.emailjs.templateId,
         {
           name: formData.name,
           email: formData.email,
-          title: formData.title,
+          title: formData.subject,
           message: formData.message,
-          to_email: "omkartanajipatil2006@gmail.com",
-        },
-        clubConfig.emailjs.publicKey
+        }
       );
 
       toast({
-        title: "Message Sent Successfully!",
-        description: "We'll get back to you soon.",
+        title: "Message Sent!",
+        description: "Thank you for reaching out. We'll get back to you soon.",
       });
-      setFormData({ name: "", email: "", title: "", message: "" });
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
     } catch (error) {
+      console.error("EmailJS Error:", error);
       toast({
-        title: "Failed to Send Message",
-        description: "Please try again later or contact us directly via email.",
+        title: "Failed to Send",
+        description: "Something went wrong. Please try again later.",
         variant: "destructive",
       });
-      console.error("EmailJS error:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const socialLinks = [
-    { 
-      icon: Instagram, 
-      label: "Instagram", 
-      href: clubConfig.social.instagram, 
-      color: "hover:text-pink-500",
-      show: true 
-    },
-    { 
-      icon: Linkedin, 
-      label: "LinkedIn", 
-      href: clubConfig.social.linkedin, 
-      color: "hover:text-blue-600",
-      show: clubConfig.social.linkedin !== "" 
-    },
-    { 
-      icon: Mail, 
-      label: "Email", 
-      href: `mailto:${clubConfig.social.email}`, 
-      color: "hover:text-primary",
-      show: true 
-    },
-  ].filter(link => link.show);
+  // Social links configuration
+  const socialLinks = config
+    ? [
+        {
+          icon: Instagram,
+          label: "Instagram",
+          href: config.instagram,
+          color: "text-pink-500",
+        },
+        config.linkedin && {
+          icon: Linkedin,
+          label: "LinkedIn",
+          href: config.linkedin,
+          color: "text-blue-500",
+        },
+        {
+          icon: Mail,
+          label: "Email",
+          href: `mailto:${config.email}`,
+          color: "text-primary",
+        },
+      ].filter(Boolean)
+    : [];
+
+  if (!config) {
+    return (
+      <section id="contact" className="py-20">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-muted-foreground">Loading contact information...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <section id="contact" className="py-20 md:py-32 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="contact" className="py-20 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-primary/5 to-background" />
+
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-foreground">
-            Get In <span className="text-primary">Touch</span>
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            Get In Touch
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Have questions? Want to join us? We'd love to hear from you!
+          <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
+            Have questions or want to join PIC? Reach out to us and we'll get back to you soon.
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <Card className="animate-fade-in border-border/50">
+          <Card className="border-border/50 bg-card/80 backdrop-blur animate-fade-in">
             <CardHeader>
-              <CardTitle>Send us a message</CardTitle>
-              <CardDescription>Fill out the form and we'll get back to you shortly</CardDescription>
+              <CardTitle className="text-2xl">Send us a Message</CardTitle>
+              <CardDescription>
+                Fill out the form below and we'll respond as soon as possible.
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -104,8 +173,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     required
-                    disabled={isSubmitting}
-                    className="border-border/50"
+                    className="bg-background/50"
                   />
                 </div>
                 <div>
@@ -115,18 +183,16 @@ const Contact = () => {
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     required
-                    disabled={isSubmitting}
-                    className="border-border/50"
+                    className="bg-background/50"
                   />
                 </div>
                 <div>
                   <Input
                     placeholder="Subject"
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     required
-                    disabled={isSubmitting}
-                    className="border-border/50"
+                    className="bg-background/50"
                   />
                 </div>
                 <div>
@@ -136,57 +202,85 @@ const Contact = () => {
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     required
                     rows={5}
-                    disabled={isSubmitting}
-                    className="border-border/50"
+                    className="bg-background/50 resize-none"
                   />
                 </div>
-                <Button type="submit" variant="default" className="w-full group" disabled={isSubmitting}>
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send Message
-                      <Send className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </>
-                  )}
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isSubmitting}
+                  variant="default"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </form>
             </CardContent>
           </Card>
 
-          {/* Social Links */}
-          <div className="animate-fade-in" style={{ animationDelay: "0.1s" }}>
-            <Card className="h-full border-border/50">
+          {/* Contact Info & Social Links */}
+          <div className="space-y-6">
+            {/* Social Media Card */}
+            <Card className="border-border/50 bg-card/80 backdrop-blur animate-fade-in">
               <CardHeader>
-                <CardTitle>Connect with us</CardTitle>
-                <CardDescription>Follow us on social media and stay updated</CardDescription>
+                <CardTitle className="text-2xl">Connect With Us</CardTitle>
+                <CardDescription>
+                  Follow us on social media for updates and events.
+                </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {socialLinks.map((link, index) => (
-                  <a
-                    key={index}
-                    href={link.href}
-                    className={`flex items-center gap-4 p-4 rounded-lg border border-border/50 hover:bg-muted/50 transition-all duration-300 hover:-translate-x-1 group ${link.color}`}
-                  >
-                    <div className="bg-primary/10 p-3 rounded-lg group-hover:scale-110 transition-transform">
-                      <link.icon className="w-5 h-5 text-primary group-hover:text-current" />
-                    </div>
-                    <span className="font-medium text-foreground">{link.label}</span>
-                  </a>
-                ))}
+                {socialLinks.map((link: any) => {
+                  const Icon = link.icon;
+                  return (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-4 p-4 rounded-lg bg-background/50 hover:bg-background transition-colors group"
+                    >
+                      <div className={`${link.color} group-hover:scale-110 transition-transform`}>
+                        <Icon className="h-6 w-6" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground">{link.label}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {link.label === "Email" ? config.email : `@pic.pccoer_`}
+                        </p>
+                      </div>
+                    </a>
+                  );
+                })}
+              </CardContent>
+            </Card>
 
-                <div className="pt-6 mt-6 border-t border-border">
-                  <h4 className="font-semibold mb-2 text-foreground">Email</h4>
-                  <p className="text-muted-foreground">{clubConfig.social.email}</p>
-                  
-                  <h4 className="font-semibold mb-2 mt-4 text-foreground">Location</h4>
-                  <p className="text-muted-foreground">
-                    Pimpri Chinchwad College of Engineering and Research<br />
-                    Ravet, Pune
-                  </p>
+            {/* Location Card */}
+            <Card className="border-border/50 bg-card/80 backdrop-blur animate-fade-in">
+              <CardHeader>
+                <CardTitle className="text-2xl">Visit Us</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50">
+                  <MapPin className="h-6 w-6 text-accent mt-1" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Our Location</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Pimpri Chinchwad College of Engineering and Research
+                      <br />
+                      Ravet, Pune, Maharashtra
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50">
+                  <Mail className="h-6 w-6 text-primary mt-1" />
+                  <div>
+                    <p className="font-semibold text-foreground mb-1">Email Us</p>
+                    <a
+                      href={`mailto:${config.email}`}
+                      className="text-sm text-primary hover:underline"
+                    >
+                      {config.email}
+                    </a>
+                  </div>
                 </div>
               </CardContent>
             </Card>
