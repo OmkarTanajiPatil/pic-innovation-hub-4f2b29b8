@@ -116,7 +116,7 @@ const Team = () => {
 
     return (
       <Card
-        className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-border/50 bg-card/80 backdrop-blur animate-fade-in"
+        className="group w-72 mx-auto hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-border/50 bg-card/80 backdrop-blur animate-fade-in"
         style={{ animationDelay: `${delay}ms` }}
       >
         <CardContent className="p-6 text-center">
@@ -151,7 +151,7 @@ const Team = () => {
 
     return (
       <Card
-        className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-border/50 bg-card/80 backdrop-blur animate-fade-in"
+        className="group w-72 mx-auto hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-border/50 bg-card/80 backdrop-blur animate-fade-in"
         style={{ animationDelay: `${delay}ms` }}
       >
         <CardContent className="p-6 text-center">
@@ -234,6 +234,21 @@ const Team = () => {
     );
   };
 
+  // Compute club leadership (Lead & Co-Lead) excluding specific names and helper for grid classes
+  const leadership = teamData.executive
+    .filter(
+      (m) => (m.position === "Lead" || m.position === "Co-Lead") &&
+             m.name !== "Vaishnavi Deshmukh" &&
+             m.name !== "Tanvi Homkar"
+    )
+    .slice(0, 2);
+
+  const getLeadershipGridClasses = (count: number) => {
+    if (count === 1) return "grid grid-cols-1 justify-items-center max-w-sm mx-auto";
+    if (count === 2) return "grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto justify-items-center";
+    return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 justify-items-center";
+  };
+
   return (
     <section id="team" className="py-20 relative overflow-hidden">
       {/* Background gradient */}
@@ -255,8 +270,8 @@ const Team = () => {
           <h3 className="text-2xl md:text-3xl font-bold text-center mb-8 text-foreground">
             Club Leadership
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamData.executive.slice(0, 4).map((member, index) => (
+          <div className={getLeadershipGridClasses(leadership.length)}>
+            {leadership.map((member, index) => (
               <TeamMemberCard key={member.name} member={member} delay={index * 100} />
             ))}
           </div>
@@ -279,7 +294,11 @@ const Team = () => {
             </TabsList>
 
             <TabsContent value="executive" className="animate-fade-in">
-              {renderTeamSection(teamData.executive)}
+              {renderTeamSection(
+                teamData.executive.filter(
+                  (m) => m.name !== "Soham Pachpute" && m.name !== "Jeevan Patil"
+                )
+              )}
             </TabsContent>
 
             <TabsContent value="marketing" className="animate-fade-in">
@@ -318,7 +337,7 @@ const Team = () => {
               Guiding and mentoring our club with their expertise and support.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto justify-items-center">
             {facultyCoordinators.map((faculty, index) => (
               <FacultyCard key={faculty.name} faculty={faculty} delay={index * 150} />
             ))}

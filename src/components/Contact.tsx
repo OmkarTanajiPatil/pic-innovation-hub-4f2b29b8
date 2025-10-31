@@ -158,7 +158,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Contact Form */}
-          <Card className="border-border/50 bg-card/80 backdrop-blur animate-fade-in">
+          <Card className="border-border/50 bg-card/80 backdrop-blur animate-fade-in h-full">
             <CardHeader>
               <CardTitle className="text-2xl">Send us a Message</CardTitle>
               <CardDescription>
@@ -229,27 +229,25 @@ const Contact = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 {socialLinks.map((link: any) => {
-                  const Icon = link.icon;
-                  return (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-4 p-4 rounded-lg bg-background/50 hover:bg-background transition-colors group"
-                    >
-                      <div className={`${link.color} group-hover:scale-110 transition-transform`}>
-                        <Icon className="h-6 w-6" />
-                      </div>
-                      <div>
-                        <p className="font-semibold text-foreground">{link.label}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {link.label === "Email" ? config.email : `@pic.pccoer_`}
-                        </p>
-                      </div>
-                    </a>
-                  );
-                })}
+                    const Icon = link.icon;
+                    return (
+                      <a
+                        key={link.label}
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-4 p-4 rounded-lg bg-background/50 hover:bg-background transition-colors group"
+                      >
+                        <div className={`${link.color} group-hover:scale-110 transition-transform`}>
+                          <Icon className="h-6 w-6" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground">{link.label}</p>
+                          <p className="text-sm text-muted-foreground">@pic.pccoer_</p>
+                        </div>
+                      </a>
+                    );
+                  })}
               </CardContent>
             </Card>
 
@@ -258,28 +256,16 @@ const Contact = () => {
               <CardHeader>
                 <CardTitle className="text-2xl">Visit Us</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent>
                 <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50">
                   <MapPin className="h-6 w-6 text-accent mt-1" />
                   <div>
-                    <p className="font-semibold text-foreground mb-1">Our Location</p>
+                    <p className="font-semibold text-foreground mb-2">Our Location</p>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       Pimpri Chinchwad College of Engineering and Research
                       <br />
                       Ravet, Pune, Maharashtra
                     </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4 p-4 rounded-lg bg-background/50">
-                  <Mail className="h-6 w-6 text-primary mt-1" />
-                  <div>
-                    <p className="font-semibold text-foreground mb-1">Email Us</p>
-                    <a
-                      href={`mailto:${config.email}`}
-                      className="text-sm text-primary hover:underline"
-                    >
-                      {config.email}
-                    </a>
                   </div>
                 </div>
               </CardContent>
