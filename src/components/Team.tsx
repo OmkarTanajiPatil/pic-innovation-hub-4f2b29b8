@@ -178,19 +178,34 @@ const Team = () => {
     );
   };
 
-  // Render team section by department
+  // Render team section by department with improved responsiveness
   const renderTeamSection = (members: TeamMember[], startDelay: number = 0) => {
     // Separate heads (Lead/Co-Lead) and members
     const heads = members.filter((m) => m.position === "Lead" || m.position === "Co-Lead");
     const regularMembers = members.filter((m) => m.position === "Member");
+
+    // Helper function to get responsive grid classes
+    const getGridClasses = (count: number) => {
+      if (count === 1) {
+        return "grid grid-cols-1 justify-items-center max-w-sm mx-auto";
+      } else if (count === 2) {
+        return "grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto justify-items-center";
+      } else if (count === 3) {
+        return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto justify-items-center";
+      } else {
+        return "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center";
+      }
+    };
 
     return (
       <div className="space-y-12">
         {/* Heads Section */}
         {heads.length > 0 && (
           <div>
-            <h4 className="text-xl font-semibold text-primary mb-6 text-center">Team Heads</h4>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center">
+            <h4 className="text-xl font-semibold text-primary mb-6 text-center">
+              {heads.length === 1 ? "Team Head" : "Team Heads"}
+            </h4>
+            <div className={getGridClasses(heads.length)}>
               {heads.map((member, index) => (
                 <TeamMemberCard key={member.name} member={member} delay={startDelay + index * 100} />
               ))}
@@ -201,12 +216,10 @@ const Team = () => {
         {/* Members Section */}
         {regularMembers.length > 0 && (
           <div>
-            <h4 className="text-xl font-semibold text-primary mb-6 text-center">Team Members</h4>
-            <div className={`grid gap-6 ${
-              regularMembers.length === 1 
-                ? "grid-cols-1 justify-items-center max-w-xs mx-auto"
-                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-            }`}>
+            <h4 className="text-xl font-semibold text-primary mb-6 text-center">
+              {regularMembers.length === 1 ? "Team Member" : "Team Members"}
+            </h4>
+            <div className={getGridClasses(regularMembers.length)}>
               {regularMembers.map((member, index) => (
                 <TeamMemberCard
                   key={member.name}
