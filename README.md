@@ -1,73 +1,48 @@
-# Welcome to your Lovable project
+# Project and Innovation Club (PIC) Website
 
-## Project info
+This is the official website for the Project and Innovation Club (PIC).
+The project has been converted from TypeScript to **Plain JavaScript (React)**.
 
-**URL**: https://lovable.dev/projects/010c4673-b688-4419-8af9-e5ae0a23e2b4
+## Project Structure
 
-## How can I edit this code?
+- **src/**: Source code
+  - **components/**: React components
+  - **pages/**: Page components
+  - **config.js**: Central configuration for club details, API links, and contact info.
+- **public/**: Static assets
 
-There are several ways of editing your application.
+## Configuration
 
-**Use Lovable**
+All hardcoded values (Club name, links, contact details) are managed in `src/config.js`.
+You can edit this file to update the website content without changing the code logic.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/010c4673-b688-4419-8af9-e5ae0a23e2b4) and start prompting.
+## Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js installed on your machine.
 
-**Use your preferred IDE**
+## How to Run
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+2. **Start the Development Server**
+   ```bash
+   npm start
+   ```
+   (or `npm run dev`)
 
-Follow these steps:
+   The website will run at `http://localhost:8080`.
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. **Build for Production**
+   ```bash
+   npm run build
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Technologies
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
+- React.js (JavaScript)
 - Vite
-- TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/010c4673-b688-4419-8af9-e5ae0a23e2b4) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- shadcn/ui components
