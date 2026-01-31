@@ -1,9 +1,9 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
-import About from "@/components/About";
-import WhatWeOffer from "@/components/WhatWeOffer";
-import Team from "@/components/Team";
-import Contact from "@/components/Contact";
+import Hero from "@/sections/Hero";
+import About from "@/sections/About";
+import WhatWeOffer from "@/sections/WhatWeOffer";
+import Team from "@/sections/Team";
+import Contact from "@/sections/Contact";
 import Footer from "@/components/Footer";
 
 const Index = () => {

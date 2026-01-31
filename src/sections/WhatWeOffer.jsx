@@ -1,40 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Lightbulb, Users, Award, BookOpen, FileText, Trophy, Calendar } from "lucide-react";
+import { Award, Calendar } from "lucide-react";
+import { offerings } from "@/data/offerings";
 
-// What we offer data
-const offerings = [
-    {
-        icon: Lightbulb,
-        title: "Research Orientation",
-        description: "Comprehensive guidance on research methodologies and academic excellence.",
-    },
-    {
-        icon: Users,
-        title: "Innovation Workshops",
-        description: "Hands-on sessions to develop problem-solving skills and creative thinking.",
-    },
-    {
-        icon: BookOpen,
-        title: "Technical Training",
-        description: "Expert-led programs on cutting-edge technologies and industry tools.",
-    },
-    {
-        icon: Users,
-        title: "Team Collaboration",
-        description: "Build projects together, share knowledge, and grow as a team.",
-    },
-    {
-        icon: FileText,
-        title: "Patent Guidance",
-        description: "Support in protecting your innovations through patent filing assistance.",
-    },
-    {
-        icon: Trophy,
-        title: "Competitions",
-        description: "Participate in hackathons, paper presentations, and innovation challenges.",
-    },
-];
 
 const WhatWeOffer = () => {
     const [events, setEvents] = useState([]);
