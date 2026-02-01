@@ -2,15 +2,15 @@ const config = {
   clubName: "Project and Innovation Club",
   clubAcronym: "PIC",
   email: "piccomp@pccoer.in", // Official Club Email
-  contactEmail: "omkartanajipatil2006@gmail.com", // Contact Person Email
+  contactEmail: import.meta.env.VITE_CONTACT_EMAIL, // Contact Person Email
   socialLinks: {
     instagram: "https://www.instagram.com/pic.pccoer_?igsh=d3Qyc2dzZ2ZmZmk3",
     linkedin: "", // Add LinkedIn URL here when available
   },
   emailjs: {
-    serviceId: "service_1gxumg3",
-    templateId: "template_6o2ysad",
-    publicKey: "mq-aO_uyqat13oJbM",
+    serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+    templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+    publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
   },
   address: {
     institution: "Pimpri Chinchwad College of Engineering and Research",
