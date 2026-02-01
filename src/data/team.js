@@ -48,5 +48,5 @@ export const teamData = {
 
 export const facultyCoordinators = [
     { name: "Prof. Abhijit Jadhav", position: "Faculty Coordinator" },
-    { name: "Mrs. Rachana Mudholkar", position: "Faculty Coordinator" },
+    { name: "Prof. Rachana Mudholkar", position: "Faculty Coordinator" },
 ];
