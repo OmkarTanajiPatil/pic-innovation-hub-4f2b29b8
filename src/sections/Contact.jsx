@@ -94,8 +94,8 @@ const Contact = () => {
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16 animate-fade-in">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                        Get In Touch
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                        Let's Collaborate
                     </h2>
                     <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
                         Have questions or want to join {config.clubAcronym}? Reach out to us and we'll get back to you soon.

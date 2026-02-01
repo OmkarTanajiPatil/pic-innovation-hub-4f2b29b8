@@ -55,8 +55,8 @@ const WhatWeOffer = () => {
                 {/* What We Offer Section */}
                 <div className="mb-20">
                     <div className="text-center mb-16 animate-fade-in">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                            What We Offer
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                            Our Initiatives
                         </h2>
                         <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
                             Empowering students with resources, mentorship, and opportunities to excel in innovation and research.
@@ -92,8 +92,8 @@ const WhatWeOffer = () => {
                 {/* Upcoming Events Section */}
                 <div>
                     <div className="text-center mb-16 animate-fade-in">
-                        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-accent via-primary to-secondary bg-clip-text text-transparent">
-                            Upcoming Events
+                        <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                            Mark Your Calendar
                         </h2>
                         <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
                             Join us for exciting workshops, hackathons, and tech events throughout the year.

@@ -50,7 +50,7 @@ const Team = () => {
                             <img
                                 src={imagePath}
                                 alt={member.name}
-                                className="w-full h-full rounded-full object-cover border-4 border-primary/20 group-hover:border-primary/50 transition-all"
+                                className="w-full h-full rounded-full object-cover object-top border-4 border-primary/20 group-hover:border-primary/50 transition-all"
                                 onError={() => handleImageError(imagePath)}
                             />
                         ) : (
@@ -85,7 +85,7 @@ const Team = () => {
                             <img
                                 src={imagePath}
                                 alt={faculty.name}
-                                className="w-full h-full rounded-full object-cover border-4 border-accent/20 group-hover:border-accent/50 transition-all"
+                                className="w-full h-full rounded-full object-cover object-top border-4 border-accent/20 group-hover:border-accent/50 transition-all"
                                 onError={() => handleImageError(imagePath)}
                             />
                         ) : (
@@ -182,8 +182,8 @@ const Team = () => {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 {/* Section Header */}
                 <div className="text-center mb-16 animate-fade-in">
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-                        Our Team
+                    <h2 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+                        Meet The Team
                     </h2>
                     <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto">
                         Meet the passionate individuals driving innovation and excellence at {config.clubAcronym}.
