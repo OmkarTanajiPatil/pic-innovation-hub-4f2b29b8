@@ -7,12 +7,39 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Node Modules
 node_modules
+.npm
+.yarn-integrity
+
+# Build
 dist
 dist-ssr
+build
+.next/
+.nuxt/
+.output/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Testing
+coverage/
+.nyc_output/
+
+# Cache
+.cache/
+.eslintcache
+.stylelintcache
+.prettiercache
+
+# Vite
 *.local
 
-# Editor directories and files
+# Editor directories
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -23,5 +50,5 @@ dist-ssr
 *.sln
 *.sw?
 
-
-.env
+# Vercel
+.vercel
